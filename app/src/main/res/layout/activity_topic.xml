@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/topic_content_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"></FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <Button
+            android:id="@+id/btn_fallback"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue"
+            android:text="上一题"
+
+            />
+
+        <Button
+            android:id="@+id/btn_look_answer"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue"
+            android:text="看答案" />
+
+        <Button
+            android:id="@+id/btn_collection"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue"
+            android:text="收藏" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue"
+            android:text="下一题" />
+    </LinearLayout>
+
+</LinearLayout>

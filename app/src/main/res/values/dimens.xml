@@ -1,0 +1,51 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- layout margin or height,width value -->
+    <dimen name="dm_0dp">0dip</dimen>
+    <dimen name="dm_05dp">0.5dip</dimen>
+    <dimen name="dm_1dp">1dip</dimen>
+    <dimen name="dm_2dp">2dip</dimen>
+    <dimen name="dm_5dp">5dip</dimen>
+    <dimen name="dm_8dp">8dip</dimen>
+    <dimen name="dm_9dp">9dip</dimen>
+    <dimen name="dm_10dp">10dip</dimen>
+    <dimen name="dm_11dp">11dip</dimen>
+    <dimen name="dm_12dp">12dip</dimen>
+    <dimen name="dm_14dp">14dip</dimen>
+    <dimen name="dm_15dp">15dip</dimen>
+    <dimen name="dm_16dp">16dip</dimen>
+    <dimen name="dm_18dp">18dip</dimen>
+    <dimen name="dm_20dp">20dip</dimen>
+    <dimen name="dm_22dp">22dip</dimen>
+    <dimen name="dm_25dp">25dip</dimen>
+    <dimen name="dm_28dp">28dip</dimen>
+    <dimen name="dm_30dp">30dip</dimen>
+    <dimen name="dm_35dp">35dip</dimen>
+    <dimen name="dm_40dp">40dip</dimen>
+    <dimen name="dm_43dp">43dip</dimen>
+    <dimen name="dm_45dp">45dip</dimen>
+    <dimen name="dm_47dp">47dip</dimen>
+    <dimen name="dm_50dp">50dip</dimen>
+    <dimen name="dm_55dp">55dip</dimen>
+    <dimen name="dm_60dp">60dip</dimen>
+    <dimen name="dm_64dp">64dip</dimen>
+    <dimen name="dm_65dp">65dip</dimen>
+    <dimen name="dm_70dp">70dip</dimen>
+    <dimen name="dm_80dp">80dip</dimen>
+    <dimen name="dm_90dp">90dip</dimen>
+    <dimen name="dm_100dp">100dip</dimen>
+    <dimen name="dm_140dp">140dip</dimen>
+    <dimen name="dm_170dp">170dip</dimen>
+    <dimen name="dm_240dp">240dip</dimen>
+    <!-- text size -->
+    <dimen name="txt_12dm">12sp</dimen>
+    <dimen name="txt_14dm">14sp</dimen>
+    <dimen name="txt_16dm">16sp</dimen>
+    <dimen name="txt_18dm">18sp</dimen>
+    <dimen name="txt_20dm">20sp</dimen>
+    <dimen name="txt_22dm">22sp</dimen>
+    <dimen name="txt_24dm">24sp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+</resources>
