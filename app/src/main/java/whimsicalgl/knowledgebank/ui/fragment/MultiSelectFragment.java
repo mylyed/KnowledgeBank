@@ -3,6 +3,7 @@ package whimsicalgl.knowledgebank.ui.fragment;
 import android.graphics.Color;
 import android.widget.CheckBox;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +15,10 @@ import whimsicalgl.knowledgebank.model.Topic;
  * 多选
  */
 public class MultiSelectFragment extends SelectFragment {
+    public void setOnCheckedChangeListener() {
+    }
+
+
     public MultiSelectFragment(Section section) {
         super(section);
     }
@@ -25,7 +30,7 @@ public class MultiSelectFragment extends SelectFragment {
 
     @Override
     public void lookAnswer() {
-        radioGroup.clearCheck();
+        clearCheck();
         Set<String> answers = (Set) currentTopc.getAnswer();
         for (String s : answers) {
             int i = s.compareToIgnoreCase("A");
@@ -33,5 +38,32 @@ public class MultiSelectFragment extends SelectFragment {
             checkBox.setChecked(true);
             checkBox.setTextColor(Color.RED);
         }
+    }
+
+    private boolean isRight() {
+        Set<String> answers = (Set) currentTopc.getAnswer();
+
+
+        Set<String> myAnswers = new HashSet<>();
+
+        for (int i = 0; i < currentTopc.getOptions().size(); i++) {
+            CheckBox checkBox = (CheckBox) radioGroup.findViewById(i);
+            if (checkBox.isChecked()) {
+                myAnswers.add(String.valueOf((char) ('A' + i)));
+            }
+        }
+        return answers.equals(myAnswers);
+    }
+
+
+    @Override
+    public void next() {
+
+        if (!isRight()) {
+            showMessage("答案错误！");
+            return;
+        }
+        showMessage("答案正确！");
+        super.next();
     }
 }

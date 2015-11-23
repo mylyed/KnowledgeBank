@@ -1,7 +1,9 @@
 package whimsicalgl.knowledgebank.ui.fragment;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +25,11 @@ import whimsicalgl.knowledgebank.model.Topic;
  * 选择 单选或者多选 判断-->有两个选择 真确还是错误
  */
 public abstract class SelectFragment extends TopicBaseFragment {
+
     private static final String LOG_TAG = SelectFragment.class.getCanonicalName();
+
+    /*给大安区设置点击事件*/
+    abstract void setOnCheckedChangeListener();
 
     public SelectFragment() {
         super();
@@ -43,14 +49,30 @@ public abstract class SelectFragment extends TopicBaseFragment {
 
     protected int currentTopicIndex = 0;
 
+    /*震动*/
+    protected Vibrator vibrator;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (vibrator == null) {
+            vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        }
         view = inflater.inflate(R.layout.fragment_select, container, false);
         //获取上次做到第几题
         initView();
+        setOnCheckedChangeListener();
         new GetDataTask().execute();
         return view;
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        vibrator.cancel();
+        MyCache.setLast(section.getSection_name() + ((Topic) topics.get(0)).getType(), currentTopicIndex);
+
     }
 
     //获取题
@@ -87,8 +109,17 @@ public abstract class SelectFragment extends TopicBaseFragment {
         radioGroup = (RadioGroup) view.findViewById(R.id.select_group);
     }
 
-    private void initParameter() {
+    /*是否可以判断正确*/
+    protected boolean canMark = true;
+
+    protected void clearCheck() {
+        canMark = false;
         radioGroup.clearCheck();
+        canMark = true;
+    }
+
+    private void initParameter() {
+        clearCheck();
         radioGroup.removeAllViews();
         try {
             currentTopc = topics.get(currentTopicIndex);
@@ -102,6 +133,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
                     checkBox.setText(currentTopc.getOptions().get(i).toString());
                     checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     checkBox.setTag(i);
+                    checkBox.setId(i);
                     radioGroup.addView(checkBox);
                 } else {
                     //单选或者判断
@@ -109,6 +141,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
                     radioButton.setText(currentTopc.getOptions().get(i).toString());
                     radioButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     radioButton.setTag(i);
+                    radioButton.setId(i);
                     radioGroup.addView(radioButton);
                 }
             }
@@ -118,6 +151,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
             textView.setText("程序出错了！");
             Log.e(LOG_TAG, e.getMessage());
         }
+
     }
 
 
@@ -139,8 +173,6 @@ public abstract class SelectFragment extends TopicBaseFragment {
             ++currentTopicIndex;
         }
         initParameter();
-
-        MyCache.setLast(section.getSection_name() + ((Topic) topics.get(0)).getType(), currentTopicIndex);
     }
 
     //收藏该题

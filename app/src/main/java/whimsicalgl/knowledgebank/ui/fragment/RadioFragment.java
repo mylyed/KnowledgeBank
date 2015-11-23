@@ -1,16 +1,11 @@
 package whimsicalgl.knowledgebank.ui.fragment;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.List;
 
-import whimsicalgl.knowledgebank.cache.MyCache;
 import whimsicalgl.knowledgebank.db.dao.DaoFactory;
 import whimsicalgl.knowledgebank.model.Section;
 import whimsicalgl.knowledgebank.model.Topic;
@@ -18,7 +13,7 @@ import whimsicalgl.knowledgebank.model.Topic;
 /**
  * 单选
  */
-public class RadioFragment extends SelectFragment {
+public class RadioFragment extends SelectFragment implements RadioGroup.OnCheckedChangeListener {
 
     public RadioFragment(Section section) {
         super(section);
@@ -29,6 +24,9 @@ public class RadioFragment extends SelectFragment {
     }
 
 
+    public void setOnCheckedChangeListener() {
+        radioGroup.setOnCheckedChangeListener(this);
+    }
 
     @Override
     public void lookAnswer() {
@@ -42,6 +40,26 @@ public class RadioFragment extends SelectFragment {
 
     @Override
     public void collection() {
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId == -1 || !canMark) {
+            return;
+        }
+        String answer = (String) currentTopc.getAnswer();
+        int i = answer.compareToIgnoreCase("A");
+
+        boolean right = (i == checkedId);
+        if (right) {
+            showMessage("你做对了!   ✓");
+        } else {
+            long[] p = {100, 400};
+            vibrator.cancel();
+            vibrator.vibrate(p, -1);
+            showMessage("你做错了!   ✗");
+        }
 
     }
 }

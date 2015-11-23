@@ -2,6 +2,7 @@ package whimsicalgl.knowledgebank.ui.fragment;
 
 import android.graphics.Color;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.List;
 
@@ -12,7 +13,12 @@ import whimsicalgl.knowledgebank.model.Topic;
 /**
  * 判断
  */
-public class JudgeFragment extends SelectFragment {
+public class JudgeFragment extends SelectFragment implements RadioGroup.OnCheckedChangeListener {
+
+    @Override
+    void setOnCheckedChangeListener() {
+        radioGroup.setOnCheckedChangeListener(this);
+    }
 
     public JudgeFragment(Section section) {
         super(section);
@@ -25,7 +31,9 @@ public class JudgeFragment extends SelectFragment {
 
     @Override
     public void lookAnswer() {
-        radioGroup.clearCheck();
+
+        clearCheck();
+
         Boolean answer = (Boolean) currentTopc.getAnswer();
         RadioButton radioButton;
         if (answer) {
@@ -35,5 +43,26 @@ public class JudgeFragment extends SelectFragment {
         }
         radioButton.setChecked(true);
         radioButton.setTextColor(Color.RED);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+        if (checkedId == -1 || !canMark) {
+            return;
+        }
+        Boolean answer = (Boolean) currentTopc.getAnswer();
+
+        boolean right = checkedId == 0;
+        if (answer.equals(right)) {
+            showMessage("你做对了!   ✓");
+        } else {
+            long[] p = {100, 400};
+            vibrator.cancel();
+            vibrator.vibrate(p, -1);
+            showMessage("你做错了!   ✗");
+        }
+
+
     }
 }
