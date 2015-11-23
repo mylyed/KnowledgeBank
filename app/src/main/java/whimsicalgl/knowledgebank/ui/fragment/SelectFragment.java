@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import whimsicalgl.knowledgebank.R;
+import whimsicalgl.knowledgebank.cache.MyCache;
 import whimsicalgl.knowledgebank.model.Section;
 import whimsicalgl.knowledgebank.model.Topic;
 
@@ -40,7 +41,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
     protected Topic currentTopc;
 
 
-    private int currentTopicIndex = 0;
+    protected int currentTopicIndex = 0;
 
     @Nullable
     @Override
@@ -65,6 +66,11 @@ public abstract class SelectFragment extends TopicBaseFragment {
         @Override
         protected void onPostExecute(List o) {
             topics = o;
+            currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
+
+
+            Log.i(LOG_TAG, currentTopicIndex + "");
+
             initParameter();
         }
     }
@@ -107,7 +113,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
                 }
             }
 
-            lookAnswer();
+            // lookAnswer();
         } catch (Exception e) {
             textView.setText("程序出错了！");
             Log.e(LOG_TAG, e.getMessage());
@@ -133,6 +139,8 @@ public abstract class SelectFragment extends TopicBaseFragment {
             ++currentTopicIndex;
         }
         initParameter();
+
+        MyCache.setLast(section.getSection_name() + ((Topic) topics.get(0)).getType(), currentTopicIndex);
     }
 
     //收藏该题

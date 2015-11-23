@@ -1,10 +1,16 @@
 package whimsicalgl.knowledgebank.ui.fragment;
 
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import java.util.List;
 
+import whimsicalgl.knowledgebank.cache.MyCache;
 import whimsicalgl.knowledgebank.db.dao.DaoFactory;
 import whimsicalgl.knowledgebank.model.Section;
 import whimsicalgl.knowledgebank.model.Topic;
@@ -21,6 +27,7 @@ public class RadioFragment extends SelectFragment {
     public List getTopics() {
         return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.RADIO);
     }
+
 
 
     @Override

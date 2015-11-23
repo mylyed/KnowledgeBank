@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import whimsicalgl.knowledgebank.cache.MyCache;
 import whimsicalgl.knowledgebank.db.DataBaseHelper;
 import whimsicalgl.knowledgebank.db.dao.DaoFactory;
 
@@ -22,8 +23,11 @@ public class MyApplication extends Application {
         executorService = Executors.newScheduledThreadPool(5);
         initDataBase();
         initFactory();
+        initCache();
     }
-
+private  void initCache(){
+    MyCache.init(this);
+}
     private void initDataBase() {
         Log.i("MyApplication", "初始化数据库");
         DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
