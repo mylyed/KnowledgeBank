@@ -40,10 +40,6 @@ public class RadioFragment extends SelectFragment implements RadioGroup.OnChecke
         canMark=true;
     }
 
-    @Override
-    public void collection() {
-
-    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

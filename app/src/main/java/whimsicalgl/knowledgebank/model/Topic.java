@@ -78,5 +78,11 @@ public abstract class Topic<E> implements Serializable {
         public int getValue() {
             return value;
         }
+
+        public static TYPE get(int v) {
+
+            return v == 1 ? RADIO : (v == 2 ? MULTISELECT : JUDGE);
+        }
+
     }
 }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,6 +84,74 @@ public class TopicDAOImpl implements TopicDAO {
         sqLiteDatabase.close();
         dataBaseHelper.close();
         return topics;
+    }
+
+    @Override
+    public Topic getTopic(String topicID) {
+        {
+            Topic topic = null;
+            SQLiteDatabase sqLiteDatabase = dataBaseHelper.getReadableDatabase();
+            String sql = "SELECT " +
+                    "t_topic.id, " +
+                    "t_topic.type, " +
+                    "t_topic.content, " +
+                    "t_topic.answer, " +
+                    "t_topic.section_id " +
+                    "FROM " +
+                    "t_topic " +
+                    "WHERE " +
+                    "t_topic.id = ?";
+            Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{topicID});
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(cursor.getColumnIndex("id")).trim();
+                String content = cursor.getString(cursor.getColumnIndex("content")).trim();
+                String answer = cursor.getString(cursor.getColumnIndex("answer")).trim();
+                int type = cursor.getInt(cursor.getColumnIndex("type"));
+                Topic.TYPE t = Topic.TYPE.get(type);
+                // 设置答案
+                switch (t) {
+                    case RADIO:
+                        topic = new TopicRadio();
+                        topic.setAnswer(answer);
+                        topic.setOptions(getOptions(sqLiteDatabase, id));
+                        break;
+                    case MULTISELECT:
+                        topic = new TopicRadio();
+                    {
+                        int length = answer.length();
+                        Set<String> asw = new HashSet<>(length);
+                        for (int i = 0; i < length; i++) {
+                            asw.add(answer.substring(i, i + 1).toUpperCase());
+                        }
+                        topic.setAnswer(asw);
+                        topic.setOptions(getOptions(sqLiteDatabase, id));
+                    }
+                    break;
+                    case JUDGE:
+                        topic = new TopicRadio();
+                        topic.setAnswer(new Boolean(answer.substring(0, 1).equals("1")));
+                        topic.setOptions(TopicJudge.YES_NO);
+                        break;
+                }
+                topic.setId(id);
+                topic.setContent(content);
+                topic.setType(type);
+            }
+            cursor.close();
+            sqLiteDatabase.close();
+            dataBaseHelper.close();
+            return topic;
+        }
+    }
+
+    @Override
+    public boolean collection(Topic topic) {
+        String sql = "INSERT INTO 't_collection' ('topoc_id', 'collection_time') VALUES (?, ?)";
+        SQLiteDatabase sqLiteDatabase = dataBaseHelper.getReadableDatabase();
+        sqLiteDatabase.execSQL(sql, new String[]{topic.getId(), new Date().toString()});
+        sqLiteDatabase.close();
+        dataBaseHelper.close();
+        return true;
     }
 
     private List<String> getOptions(SQLiteDatabase sqLiteDatabase, String topic_id) {

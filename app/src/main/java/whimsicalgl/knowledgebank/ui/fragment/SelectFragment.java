@@ -1,7 +1,6 @@
 package whimsicalgl.knowledgebank.ui.fragment;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
@@ -16,8 +15,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import whimsicalgl.knowledgebank.R;
 import whimsicalgl.knowledgebank.cache.MyCache;
+import whimsicalgl.knowledgebank.db.dao.DaoFactory;
 import whimsicalgl.knowledgebank.model.Section;
 import whimsicalgl.knowledgebank.model.Topic;
 
@@ -62,7 +68,24 @@ public abstract class SelectFragment extends TopicBaseFragment {
         //获取上次做到第几题
         initView();
         setOnCheckedChangeListener();
-        new GetDataTask().execute();
+//        new GetDataTask().execute();
+        Observable.create(new Observable.OnSubscribe<List>() {
+            @Override
+            public void call(Subscriber<? super List> subscriber) {
+                subscriber.onNext(getTopics());
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List>() {
+            @Override
+            public void call(List list) {
+                topics = list;
+                currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
+                Log.i(LOG_TAG, currentTopicIndex + "");
+                initParameter();
+            }
+        });
+
+
         return view;
     }
 
@@ -78,22 +101,22 @@ public abstract class SelectFragment extends TopicBaseFragment {
     //获取题
     public abstract List getTopics();
 
-    private class GetDataTask extends AsyncTask<Void, Void, List> {
-
-        @Override
-        protected List doInBackground(Void[] params) {
-            return getTopics();
-        }
-
-        @Override
-        protected void onPostExecute(List o) {
-            topics = o;
-            currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
-            Log.i(LOG_TAG, currentTopicIndex + "");
-
-            initParameter();
-        }
-    }
+//    private class GetDataTask extends AsyncTask<Void, Void, List> {
+//
+//        @Override
+//        protected List doInBackground(Void[] params) {
+//            return getTopics();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List o) {
+//            topics = o;
+//            currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
+//            Log.i(LOG_TAG, currentTopicIndex + "");
+//
+//            initParameter();
+//        }
+//    }
 
 
     private View view;
@@ -176,6 +199,20 @@ public abstract class SelectFragment extends TopicBaseFragment {
     //收藏该题
     @Override
     public void collection() {
-
+        Observable.just(currentTopc).map(new Func1<Topic, Boolean>() {
+            @Override
+            public Boolean call(Topic topic) {
+                return DaoFactory.getInstance().getTopicDAO().collection(topic);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                if (aBoolean) {
+                    showMessage("收藏成功！");
+                } else {
+                    showMessage("收藏失败！");
+                }
+            }
+        });
     }
 }

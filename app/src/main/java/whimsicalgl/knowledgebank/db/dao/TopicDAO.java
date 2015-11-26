@@ -11,4 +11,8 @@ import whimsicalgl.knowledgebank.model.Topic;
 public interface TopicDAO {
 
     List<Topic> getTopics(Section s, Topic.TYPE type);
+
+    Topic getTopic(String topicID);
+
+    boolean collection(Topic topic);
 }
