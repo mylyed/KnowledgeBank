@@ -31,6 +31,7 @@ public class JudgeFragment extends SelectFragment implements RadioGroup.OnChecke
 
     @Override
     public void lookAnswer() {
+        canMark = false;
 
         clearCheck();
 
@@ -43,6 +44,8 @@ public class JudgeFragment extends SelectFragment implements RadioGroup.OnChecke
         }
         radioButton.setChecked(true);
         radioButton.setTextColor(Color.RED);
+        canMark = true;
+
     }
 
     @Override
@@ -56,6 +59,7 @@ public class JudgeFragment extends SelectFragment implements RadioGroup.OnChecke
         boolean right = checkedId == 0;
         if (answer.equals(right)) {
             showMessage("你做对了!   ✓");
+            next();
         } else {
             long[] p = {100, 400};
             vibrator.cancel();

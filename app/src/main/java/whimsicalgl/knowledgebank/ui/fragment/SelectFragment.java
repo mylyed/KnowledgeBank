@@ -89,8 +89,6 @@ public abstract class SelectFragment extends TopicBaseFragment {
         protected void onPostExecute(List o) {
             topics = o;
             currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
-
-
             Log.i(LOG_TAG, currentTopicIndex + "");
 
             initParameter();
@@ -109,7 +107,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
         radioGroup = (RadioGroup) view.findViewById(R.id.select_group);
     }
 
-    /*是否可以判断正确*/
+    /*是否可以判断答案正确*/
     protected boolean canMark = true;
 
     protected void clearCheck() {

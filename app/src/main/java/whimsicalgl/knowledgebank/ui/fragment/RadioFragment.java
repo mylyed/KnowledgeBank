@@ -30,12 +30,14 @@ public class RadioFragment extends SelectFragment implements RadioGroup.OnChecke
 
     @Override
     public void lookAnswer() {
+        canMark=false;
         radioGroup.clearCheck();
         String answer = (String) currentTopc.getAnswer();
         int i = answer.compareToIgnoreCase("A");
         RadioButton radioButton = (RadioButton) radioGroup.findViewWithTag(i);
         radioButton.setChecked(true);
         radioButton.setTextColor(Color.RED);
+        canMark=true;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class RadioFragment extends SelectFragment implements RadioGroup.OnChecke
         boolean right = (i == checkedId);
         if (right) {
             showMessage("你做对了!   ✓");
+            next();
         } else {
             long[] p = {100, 400};
             vibrator.cancel();

@@ -1,7 +1,6 @@
 package whimsicalgl.knowledgebank.ui.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,6 +55,6 @@ public class SectionActivity extends Activity implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //Log.w(LOG_TAG, sectionList.get(position).toString());
         //Toast.makeText(this, sectionList.get(position).toString(), Toast.LENGTH_LONG).show();
-        new ChooseTypePopupWindow(this,sectionList.get(position));
+        new ChooseTypePopupWindow(this, sectionList.get(position));
     }
 }
