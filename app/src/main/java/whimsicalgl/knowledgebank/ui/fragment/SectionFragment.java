@@ -1,8 +1,11 @@
-package whimsicalgl.knowledgebank.ui.activity;
+package whimsicalgl.knowledgebank.ui.fragment;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -18,22 +21,34 @@ import whimsicalgl.knowledgebank.ui.popupbox.ChooseTypePopupWindow;
 /**
  * 选择试题
  */
-public class SectionActivity extends Activity implements AdapterView.OnItemClickListener {
+public class SectionFragment extends Fragment implements AdapterView.OnItemClickListener {
     static String LOG_TAG = "SectionActivity";
 
+//    @Override
+//     protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_choose);
+//        initView();
+//        initParameter();
+//        setAdapterAndListener();
+//    }
+
+    private View view;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_choose, container, false);
         initView();
         initParameter();
         setAdapterAndListener();
+        return view;
     }
 
     private BaseAdapter adapter;
 
     private void setAdapterAndListener() {
-        adapter = new SectionAdapter(this, sectionList);
+        adapter = new SectionAdapter(this.getActivity(), sectionList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
     }
@@ -48,13 +63,13 @@ public class SectionActivity extends Activity implements AdapterView.OnItemClick
     private ListView listView;
 
     private void initView() {
-        listView = (ListView) findViewById(R.id.choose_listview);
+        listView = (ListView) view.findViewById(R.id.choose_listview);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //Log.w(LOG_TAG, sectionList.get(position).toString());
         //Toast.makeText(this, sectionList.get(position).toString(), Toast.LENGTH_LONG).show();
-        new ChooseTypePopupWindow(this, sectionList.get(position));
+        new ChooseTypePopupWindow(this.getActivity(), sectionList.get(position));
     }
 }

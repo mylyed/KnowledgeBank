@@ -3,23 +3,24 @@
     <item android:state_pressed="true" >
         <shape>
             <solid
-                android:color="#474a4d" />
+                android:color="#494c4e" />
             <stroke
                 android:width="1dp"
-                android:color="#474a4d" />
-
+                android:color="#494c4e" />
 
         </shape>
     </item>
     <item>
         <shape>
             <gradient
-                android:startColor="#c2cad1"
-                android:endColor="#c2cad1"
+                android:startColor="#494c4e"
+                android:endColor="#494c4e"
                 android:angle="270" />
             <stroke
                 android:width="1dp"
-                android:color="#c2cad1" />
+                android:color="#494c4e" />
+
+
         </shape>
     </item>
 </selector>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#55000000"
+    android:background="#22000000"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -14,30 +14,33 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_blue"
+            android:layout_height="90px"
+            android:background="@color/salmon"
             android:gravity="center"
-            android:text="请选择题型" />
+            android:text="请选择题型"
+            android:textColor="@color/indigo"
+            android:textSize="50px"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/danxuan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_purple"
+            android:background="@drawable/button_org"
             android:text="单选" />
 
         <Button
             android:id="@+id/duoxuan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_purple"
+            android:background="@drawable/button_org"
             android:text="多选" />
 
         <Button
             android:id="@+id/panduan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_purple"
+            android:background="@drawable/button_org"
             android:text="判断" />
     </LinearLayout>
 </LinearLayout>

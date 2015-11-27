@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-   <TextView
-android:gravity="center"
-       android:padding="@dimen/txt_22dm"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="请选择试题"
-       android:textSize="@dimen/txt_24dm"
-       />
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#63B8FF"
+        android:gravity="center"
+        android:padding="@dimen/txt_22dm"
+        android:text="请选择试题"
+        android:textSize="@dimen/txt_24dm" />
+
     <ListView
         android:id="@+id/choose_listview"
         android:layout_width="match_parent"
