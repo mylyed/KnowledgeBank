@@ -20,13 +20,16 @@ public class JudgeFragment extends SelectFragment implements RadioGroup.OnChecke
         radioGroup.setOnCheckedChangeListener(this);
     }
 
-    public JudgeFragment(Section section) {
-        super(section);
+    public JudgeFragment(boolean isC, Section section) {
+        super(isC, section);
     }
 
     @Override
     public List getTopics() {
-        return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.JUDGE);
+        if (!isCollection)
+            return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.JUDGE);
+        else
+            return DaoFactory.getInstance().getTopicDAO().getCollectionTopics(Topic.TYPE.JUDGE);
     }
 
     @Override

@@ -27,10 +27,10 @@ public class MyApplication extends Application {
     }
 private  void initCache(){
     MyCache.init(this);
-    if(MyCache.getLast("last")==0){
-        MyCache.setLast("201511111",203);
-        MyCache.setLast("last",1);
-    };
+//    if(MyCache.getLast("last")==0){
+//        MyCache.setLast("201511111",203);
+//        MyCache.setLast("last",1);
+//    };
 }
     private void initDataBase() {
         Log.i("MyApplication", "初始化数据库");

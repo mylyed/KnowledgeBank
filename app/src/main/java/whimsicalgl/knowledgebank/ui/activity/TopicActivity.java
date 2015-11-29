@@ -28,10 +28,15 @@ public class TopicActivity extends FragmentActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic);
+
+        //------------------
+        boolean isCollection = this.getIntent().getBooleanExtra("isCollection", false);
         section = (Section) this.getIntent().getSerializableExtra(Section.class.getCanonicalName());
         Topic.TYPE type = (Topic.TYPE) this.getIntent().getSerializableExtra(Topic.TYPE.class.getCanonicalName());
+        //------------------
+
         Log.i(LOG_TAG, type.getValue() + "");
-        initFragment(type);
+        initFragment(isCollection, type);
         initView();
         setListener();
     }
@@ -58,18 +63,18 @@ public class TopicActivity extends FragmentActivity implements View.OnClickListe
 
     TopicBaseFragment topicBaseFragment;
 
-    private void initFragment(Topic.TYPE type) {
+    private void initFragment(boolean isC, Topic.TYPE type) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (type) {
             case RADIO:
-                topicBaseFragment = new RadioFragment(section);
+                topicBaseFragment = new RadioFragment(isC,section);
                 break;
             case MULTISELECT:
-                topicBaseFragment = new MultiSelectFragment(section);
+                topicBaseFragment = new MultiSelectFragment(isC,section);
                 break;
             case JUDGE:
-                topicBaseFragment = new JudgeFragment(section);
+                topicBaseFragment = new JudgeFragment(isC,section);
                 break;
         }
         fragmentTransaction.replace(R.id.topic_content_section, topicBaseFragment);

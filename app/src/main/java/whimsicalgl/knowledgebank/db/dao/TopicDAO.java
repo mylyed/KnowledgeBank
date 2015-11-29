@@ -15,4 +15,6 @@ public interface TopicDAO {
     Topic getTopic(String topicID);
 
     boolean collection(Topic topic);
+
+    List<Topic> getCollectionTopics(Topic.TYPE judge);
 }

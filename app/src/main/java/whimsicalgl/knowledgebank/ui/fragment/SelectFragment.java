@@ -34,7 +34,7 @@ public abstract class SelectFragment extends TopicBaseFragment {
 
     private static final String LOG_TAG = SelectFragment.class.getCanonicalName();
 
-    /*给大安区设置点击事件*/
+    /*给答案区设置点击事件*/
     abstract void setOnCheckedChangeListener();
 
     public SelectFragment() {
@@ -42,8 +42,11 @@ public abstract class SelectFragment extends TopicBaseFragment {
     }
 
     protected Section section;
+    /*是否是打开收藏的题库*/
+    protected boolean isCollection;
 
-    public SelectFragment(Section section) {
+    public SelectFragment(boolean isCollection, Section section) {
+        this.isCollection = isCollection;
         this.section = section;
     }
 
@@ -78,10 +81,16 @@ public abstract class SelectFragment extends TopicBaseFragment {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<List>() {
             @Override
             public void call(List list) {
-                topics = list;
-                currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
-                Log.i(LOG_TAG, currentTopicIndex + "");
-                initParameter();
+                if (list.size() >= 1) {
+                    topics = list;
+                    if (!isCollection) {
+                        currentTopicIndex = MyCache.getLast(section.getSection_name() + ((Topic) topics.get(0)).getType());
+                    }
+                    Log.i(LOG_TAG, currentTopicIndex + "");
+                    initParameter();
+                } else {
+                    textView.setText("没有题");
+                }
             }
         });
 
@@ -94,13 +103,13 @@ public abstract class SelectFragment extends TopicBaseFragment {
     public void onStop() {
         super.onStop();
         vibrator.cancel();
-        MyCache.setLast(section.getSection_name() + ((Topic) topics.get(0)).getType(), currentTopicIndex);
+        if (topics != null && topics.size() > 0 && !isCollection && section != null)
+            MyCache.setLast(section.getSection_name() + ((Topic) topics.get(0)).getType(), currentTopicIndex);
 
     }
 
     //获取题
     public abstract List getTopics();
-
 //    private class GetDataTask extends AsyncTask<Void, Void, List> {
 //
 //        @Override

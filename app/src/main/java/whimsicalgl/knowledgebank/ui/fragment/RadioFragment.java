@@ -15,12 +15,16 @@ import whimsicalgl.knowledgebank.model.Topic;
  */
 public class RadioFragment extends SelectFragment implements RadioGroup.OnCheckedChangeListener {
 
-    public RadioFragment(Section section) {
-        super(section);
+
+    public RadioFragment(boolean isC, Section section) {
+        super(isC, section);
     }
 
     public List getTopics() {
-        return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.RADIO);
+        if (!isCollection)
+            return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.RADIO);
+        else
+            return DaoFactory.getInstance().getTopicDAO().getCollectionTopics(Topic.TYPE.RADIO);
     }
 
 
@@ -30,14 +34,14 @@ public class RadioFragment extends SelectFragment implements RadioGroup.OnChecke
 
     @Override
     public void lookAnswer() {
-        canMark=false;
+        canMark = false;
         radioGroup.clearCheck();
         String answer = (String) currentTopc.getAnswer();
         int i = answer.compareToIgnoreCase("A");
         RadioButton radioButton = (RadioButton) radioGroup.findViewWithTag(i);
         radioButton.setChecked(true);
         radioButton.setTextColor(Color.RED);
-        canMark=true;
+        canMark = true;
     }
 
 

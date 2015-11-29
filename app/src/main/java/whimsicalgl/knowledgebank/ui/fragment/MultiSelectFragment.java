@@ -19,13 +19,17 @@ public class MultiSelectFragment extends SelectFragment {
     }
 
 
-    public MultiSelectFragment(Section section) {
-        super(section);
+    public MultiSelectFragment(boolean isC, Section section) {
+        super(isC, section);
     }
 
     @Override
     public List getTopics() {
-        return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.MULTISELECT);
+
+        if (!isCollection)
+            return DaoFactory.getInstance().getTopicDAO().getTopics(section, Topic.TYPE.MULTISELECT);
+        else
+            return DaoFactory.getInstance().getTopicDAO().getCollectionTopics(Topic.TYPE.MULTISELECT);
     }
 
     @Override
