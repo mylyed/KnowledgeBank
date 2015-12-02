@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -88,8 +89,10 @@ public abstract class SelectFragment extends TopicBaseFragment {
                     }
                     Log.i(LOG_TAG, currentTopicIndex + "");
                     initParameter();
+                    EventBus.getDefault().post(new Boolean(true));
                 } else {
                     textView.setText("没有题");
+                    EventBus.getDefault().post(new Boolean(false));
                 }
             }
         });

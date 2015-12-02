@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import de.greenrobot.event.EventBus;
 import whimsicalgl.knowledgebank.R;
 import whimsicalgl.knowledgebank.model.Section;
 import whimsicalgl.knowledgebank.model.Topic;
@@ -39,7 +41,23 @@ public class TopicActivity extends FragmentActivity implements View.OnClickListe
         initFragment(isCollection, type);
         initView();
         setListener();
+        EventBus.getDefault().register(this);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    Boolean btnState = false;
+
+
+    public void onEvent(Boolean btnState) {
+        this.btnState = btnState;
+       // Toast.makeText(this, "EventBus收到信息", Toast.LENGTH_SHORT).show();
+    }
+
 
     private void setListener() {
         fallback.setOnClickListener(this);
@@ -68,13 +86,13 @@ public class TopicActivity extends FragmentActivity implements View.OnClickListe
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (type) {
             case RADIO:
-                topicBaseFragment = new RadioFragment(isC,section);
+                topicBaseFragment = new RadioFragment(isC, section);
                 break;
             case MULTISELECT:
-                topicBaseFragment = new MultiSelectFragment(isC,section);
+                topicBaseFragment = new MultiSelectFragment(isC, section);
                 break;
             case JUDGE:
-                topicBaseFragment = new JudgeFragment(isC,section);
+                topicBaseFragment = new JudgeFragment(isC, section);
                 break;
         }
         fragmentTransaction.replace(R.id.topic_content_section, topicBaseFragment);
@@ -83,7 +101,9 @@ public class TopicActivity extends FragmentActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        if (!btnState) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.btn_fallback:
                 topicBaseFragment.fallback();
